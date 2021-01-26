@@ -26,6 +26,7 @@ if($fromUser->balance - $model->amount >= $model::MINIMUM_BALANCE_VALUE) {
             ->update('{{%users}}', ['balance' => $toUser->balance + $model->amount], 'id = :id', [':id' => $model->to_user_id])
             ->execute();
 
+        $model->save();
 
         $transaction->commit();
 
