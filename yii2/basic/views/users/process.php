@@ -12,7 +12,6 @@ use yii\web\View;
 $fromUser = UsersEntity::findOne(['id' => $model->from_user_id]);
 
 $toUser = UsersEntity::findOne(['id' => $model->to_user_id]);
-
 if($fromUser->balance - $model->amount >= $model::MINIMUM_BALANCE_VALUE) {
 
     $db = Yii::$app->db;
@@ -27,6 +26,7 @@ if($fromUser->balance - $model->amount >= $model::MINIMUM_BALANCE_VALUE) {
             ->update('{{%users}}', ['balance' => $toUser->balance + $model->amount], 'id = :id', [':id' => $model->to_user_id])
             ->execute();
 
+
         $transaction->commit();
 
     } catch (\Exception $e) {
@@ -36,4 +36,6 @@ if($fromUser->balance - $model->amount >= $model::MINIMUM_BALANCE_VALUE) {
         $transaction->rollBack();
     }
 }
+
+
 Yii::$app->response->redirect('/users');
